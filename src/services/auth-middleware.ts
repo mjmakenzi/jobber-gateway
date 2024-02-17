@@ -1,12 +1,12 @@
 import { config } from '@gateway/config';
-import { BadRequestError, IAuthPayload, NotAutorizedError } from '@mjmakenzi/jobber-shared';
-import { NextFunction, Request } from 'express';
+import { BadRequestError, IAuthPayload, NotAuthorizedError } from '@mjmakenzi/jobber-shared';
+import { Request, Response, NextFunction } from 'express';
 import { verify } from 'jsonwebtoken';
 
 class AuthMiddleware {
   public verifyUser(req: Request, _res: Response, next: NextFunction): void {
     if (!req.session?.jwt) {
-      throw new NotAutorizedError(
+      throw new NotAuthorizedError(
         'Token is not available. Please login again.',
         'GatewayService verifyUser() method error'
       );
@@ -16,8 +16,8 @@ class AuthMiddleware {
       const payload: IAuthPayload = verify(req.session?.jwt, `${config.JWT_TOKEN}`) as IAuthPayload;
       req.currentUser = payload;
     } catch (error) {
-      throw new NotAutorizedError(
-        'Token is not available. Please  login again.',
+      throw new NotAuthorizedError(
+        'Token is not available. Please login again.',
         'GatewayService verifyUser() method invalid session error'
       );
     }
