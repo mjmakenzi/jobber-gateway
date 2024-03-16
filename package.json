@@ -36,6 +36,7 @@
     "pino-pretty": "^10.3.1",
     "redis": "^4.6.13",
     "socket.io": "^4.7.4",
+    "socket.io-client": "^4.7.4",
     "typescript": "^5.3.3",
     "typescript-transform-paths": "^3.4.6",
     "winston": "^3.11.0"

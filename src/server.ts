@@ -17,6 +17,10 @@ import { Server } from 'socket.io';
 import { createClient } from 'redis';
 import { createAdapter } from '@socket.io/redis-adapter';
 import { SocketIOAppHandler } from '@gateway/sockets/socket';
+import { axiosBuyerInstance } from '@gateway/services/api/buyer.service';
+import { axiosSellerInstance } from '@gateway/services/api/seller.service';
+import { axiosGigInstance } from '@gateway/services/api/gig.service';
+import { axiosMessageInstance } from '@gateway/services/api/message.service';
 
 const SERVER_PORT = 4000;
 const DEFAULT_ERROR_CODE = 500;
@@ -63,6 +67,12 @@ export class GatewayServer {
     app.use((req: Request, _res: Response, next: NextFunction) => {
       if (req.session?.jwt) {
         axiosAuthInstance.defaults.headers['Authorization'] = `Bearer ${req.session?.jwt}`;
+        axiosBuyerInstance.defaults.headers['Authorization'] = `Bearer ${req.session?.jwt}`;
+        axiosSellerInstance.defaults.headers['Authorization'] = `Bearer ${req.session?.jwt}`;
+        axiosGigInstance.defaults.headers['Authorization'] = `Bearer ${req.session?.jwt}`;
+        axiosMessageInstance.defaults.headers['Authorization'] = `Bearer ${req.session?.jwt}`;
+        // axiosOrderInstance.defaults.headers['Authorization'] = `Bearer ${req.session?.jwt}`;
+        // axiosReviewInstance.defaults.headers['Authorization'] = `Bearer ${req.session?.jwt}`;
       }
       next();
     });
