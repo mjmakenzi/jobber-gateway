@@ -1,3 +1,4 @@
+import 'express-async-errors';
 import { CustomError, IErrorResponse, winstonLogger } from '@mjmakenzi/jobber-shared';
 import cookieSession from 'cookie-session';
 import { Application, NextFunction, Request, Response, json, urlencoded } from 'express';
@@ -50,8 +51,10 @@ export class GatewayServer {
         name: 'session',
         keys: [`${config.SECRET_KEY_ONE}`, `${config.SECRET_KEY_TWO}`],
         maxAge: 24 * 7 * 3600000,
-        secure: config.NODE_ENV !== 'development'
-        // sameSite : 'none'
+        secure: config.NODE_ENV !== 'development',
+        ...(config.NODE_ENV !== 'development' && {
+          sameSite: 'none'
+        })
       })
     );
     app.use(hpp());
